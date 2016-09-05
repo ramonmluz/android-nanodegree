@@ -8,8 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!--styles for buttons in begin screen -->
-    <style name="BtsBeguinSrceenTheme" parent="@android:style/Widget.Button">
+    <!--styles for buttons in home screen -->
+    <style name="BtsHomeScreenTheme" parent="@android:style/Widget.Button">
         <item name="android:layout_width"> match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/amberColor</item>
@@ -21,8 +21,8 @@
         <item name="android:layout_marginBottom">8dp</item>
     </style>
 
-    <!-- inheritance from style BtsBeguinSrceenTheme -->
-    <style name="BtsBeguinSrceenTheme.Blue">
+    <!-- inheritance from style BtsHomeScreenTheme -->
+    <style name="BtsHomeScreenTheme.Blue">
         <item name="android:background">@color/indigoColor</item>
         <item name="android:textColor">@color/whiteColor</item>
     </style>
