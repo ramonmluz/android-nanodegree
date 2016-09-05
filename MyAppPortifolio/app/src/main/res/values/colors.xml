@@ -3,4 +3,11 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="blackColor">#000000</color>
+    <color name="amberColor">#FFC107</color>
+    <color name="indigoColor">#3F51B5</color>
+    <color name="whiteColor">#FFFFFF</color>
+
+
 </resources>

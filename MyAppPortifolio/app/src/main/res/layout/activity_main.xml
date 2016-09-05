@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_title"
-        android:textColor="#000000"
+        android:textColor="@color/blackColor"
         android:textSize="24sp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
@@ -17,90 +17,35 @@
         android:textAlignment="center"/>
 
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <Button style="@style/BtsBeguinSrceenTheme"
         android:text="@string/popular_movies"
-        android:id="@+id/bt_spotify"
-        android:background="#FFC107"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:id="@+id/bt_popular_movies"
         android:onClick="launchPopularMoviesApp"
         />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <Button  style="@style/BtsBeguinSrceenTheme"
         android:text="@string/stock_hawk"
-        android:id="@+id/bt_scories"
-        android:background="#FFC107"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:id="@+id/bt_stock_hawk"
         android:onClick="launchStockHawkApp"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <Button style="@style/BtsBeguinSrceenTheme"
         android:text="@string/build_it_bigger"
         android:id="@+id/bt_build"
-        android:background="#FFC107"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:onClick="launchBuildItBiggerApp"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <Button style="@style/BtsBeguinSrceenTheme"
         android:text="@string/make_your_app"
-        android:id="@+id/bt_xyz"
-        android:background="#FFC107"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:id="@+id/bt_make_app"
         android:onClick="launchMakeYourApp"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <Button style="@style/BtsBeguinSrceenTheme"
         android:text="@string/go_ubiquitous"
-        android:id="@+id/bt_library"
-        android:background="#FFC107"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:id="@+id/bt_go_ubiquitous"
         android:onClick="launchGoUbiquitousApp"/>
 
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <Button style="@style/BtsBeguinSrceenTheme.Blue"
         android:text="@string/capstone"
         android:id="@+id/bt_capstone"
-        android:background="#3F51B5"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:onClick="launchCapstoneApp"/>
 
 </LinearLayout>
