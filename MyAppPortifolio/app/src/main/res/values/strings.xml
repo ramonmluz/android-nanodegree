@@ -7,4 +7,7 @@
     <string name="make_your_app">MAKE YOUR APP MATERIAL</string>
     <string name="go_ubiquitous">GO UBIQUITOUS</string>
     <string name="capstone">CAPSTONE</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
