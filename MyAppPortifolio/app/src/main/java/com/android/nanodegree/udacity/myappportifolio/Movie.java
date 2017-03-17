@@ -6,21 +6,38 @@ package com.android.nanodegree.udacity.myappportifolio;
 
 public class Movie {
 
-    private Integer id;
+    private String id;
     private String originalTitle;
-    // overview in APi
-    private  String plotSynopsis;
+    private  String overview;
     // vote_average in the api
-    private  Number userRating;
-
+    private  String voteAverage;
     private String releaseDate;
 
-    public Movie(Integer id, String originalTitle, String plotSynopsis, Number userRating, String releaseDate) {
+
+    public Movie(String id, String originalTitle, String overview, String voteAverage, String releaseDate) {
         this.id = id;
         this.originalTitle = originalTitle;
-        this.plotSynopsis = plotSynopsis;
-        this.userRating = userRating;
+        this.overview = overview;
+        this.voteAverage = voteAverage;
         this.releaseDate = releaseDate;
+    }
+
+    public Movie(){}
+
+
+    public enum  ParametersEnum{
+        RESULTS("results"), ID("id"), ORIGINAL_TITLE("original_title"), OVERVIEW("overview"),
+        VOTE_AVERAGE("vote_average"), RELEASE_DATE("release_date");
+
+        private final String value;
+
+        ParametersEnum(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 
 }
