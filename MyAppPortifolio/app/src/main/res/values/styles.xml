@@ -10,7 +10,7 @@
 
     <!--styles for buttons in home screen -->
     <style name="BtsHomeScreenTheme" parent="@android:style/Widget.Button">
-        <item name="android:layout_width"> match_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/amberColor</item>
         <item name="android:textColor">@color/blackColor</item>
@@ -26,5 +26,14 @@
         <item name="android:background">@color/indigoColor</item>
         <item name="android:textColor">@color/whiteColor</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

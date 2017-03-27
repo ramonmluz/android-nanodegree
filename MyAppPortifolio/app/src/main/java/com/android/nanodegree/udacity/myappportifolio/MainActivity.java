@@ -1,5 +1,6 @@
 package com.android.nanodegree.udacity.myappportifolio;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,11 +11,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
     }
 
     public void launchPopularMoviesApp(View view){
-        sendToastMessage("This button will launch my Popular Movies App!");
+        // Inicia  o Fragment
+        startActivity(new Intent(this, MenuActivity.class));
     }
 
     public void launchStockHawkApp(View view){
@@ -46,4 +49,13 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),text,Toast.LENGTH_SHORT).show();
     }
 
+  /*  @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case:R.id.ax
+        }
+
+        return super.onOptionsItemSelected(item);
+    }*/
 }
