@@ -4,7 +4,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="com.android.nanodegree.udacity.myappportifolio.fragment.MovieFragment"
-             tools:showIn="@layout/activity_menu">
+             tools:showIn="@layout/activity_movie">
 
     <GridView
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.android.nanodegree.udacity.myappportifolio;
+package com.android.nanodegree.udacity.myappportifolio.activity;
 
 
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
+
+import com.android.nanodegree.udacity.myappportifolio.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

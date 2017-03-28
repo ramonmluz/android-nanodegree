@@ -1,10 +1,12 @@
-package com.android.nanodegree.udacity.myappportifolio;
+package com.android.nanodegree.udacity.myappportifolio.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
+
+import com.android.nanodegree.udacity.myappportifolio.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchPopularMoviesApp(View view){
         // Inicia  o Fragment
-        startActivity(new Intent(this, MenuActivity.class));
+        startActivity(new Intent(this, MovieActivity.class));
     }
 
     public void launchStockHawkApp(View view){
