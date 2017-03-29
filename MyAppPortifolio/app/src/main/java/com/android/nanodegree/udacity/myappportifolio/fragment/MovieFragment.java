@@ -115,7 +115,7 @@ public class MovieFragment extends Fragment {
             final String PAGE = "page";
 
             // Valores
-            String keyMovieDb = "c4852d11798d35ebae996afb362875d4";
+            String keyMovieDb = "";
             String language = "en-US";
             String page = "1";
 

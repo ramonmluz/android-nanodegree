@@ -53,7 +53,8 @@ public class ForecastFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // Informa que existirá um menu de opções manipulado por esse fragmento
-        setHasOptionsMenu(true);
+          setHasOptionsMenu(true);
+
     }
 
 
