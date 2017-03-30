@@ -1,6 +1,7 @@
 package com.android.nanodegree.udacity.myappportifolio.fragment;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,10 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.android.nanodegree.udacity.myappportifolio.R;
 import com.android.nanodegree.udacity.myappportifolio.VO.Movie;
+import com.android.nanodegree.udacity.myappportifolio.activity.MovieDetailActivity;
 import com.android.nanodegree.udacity.myappportifolio.adapter.MovieArrayAdapter;
 
 import org.json.JSONArray;
@@ -55,7 +58,6 @@ public class MovieFragment extends Fragment {
         updateMovies();
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,6 +71,20 @@ public class MovieFragment extends Fragment {
         gridView = (GridView) rootView.findViewById(R.id.movies_grid);
 
         gridView.setAdapter(movieArrayAdapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Obtem o filme clicado
+                Movie movie = (Movie) parent.getItemAtPosition(position);
+                // Instancia a activity
+                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                // Informa  o parâmetro
+                intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, movie);
+                // Chama a activity
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }

@@ -1,10 +1,13 @@
 package com.android.nanodegree.udacity.myappportifolio.VO;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by ramon on 16/03/17.
  */
 
-public class Movie {
+public class Movie implements Parcelable {
 
     public static final String BASE_URL_IMAGE = "http://image.tmdb.org/t/p/w185";
     private String id;
@@ -15,6 +18,8 @@ public class Movie {
     private String releaseDate;
 
 
+    public Movie(){}
+
     public Movie(String id, String posterPath, String originalTitle, String overview, String voteAverage, String releaseDate) {
         this.id = id;
         this.posterPath = BASE_URL_IMAGE + posterPath;
@@ -24,7 +29,54 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public Movie(){}
+
+    /**
+     * Desserialiaza os atributos
+     * @param in
+     */
+    protected Movie(Parcel in) {
+        id = in.readString();
+        posterPath = in.readString();
+        originalTitle = in.readString();
+        overview = in.readString();
+        voteAverage = in.readString();
+        releaseDate = in.readString();
+    }
+
+    /**
+     * Cria o objeto a partir de um parcel
+     */
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Serializa os atibutos (transforma em bytes)
+     * @param parcel
+     * @param i
+     */
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(posterPath);
+        parcel.writeString(originalTitle);
+        parcel.writeString(overview);
+        parcel.writeString(voteAverage);
+        parcel.writeString(releaseDate);
+    }
 
 
     public enum  ParametersEnum{
