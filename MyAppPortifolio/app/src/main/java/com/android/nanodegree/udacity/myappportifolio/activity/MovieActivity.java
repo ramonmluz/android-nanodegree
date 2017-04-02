@@ -2,6 +2,8 @@ package com.android.nanodegree.udacity.myappportifolio.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -26,6 +28,18 @@ public class MovieActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
+       seetupAcionBar();
+    }
+
+    /**
+     *
+     */
+    private void seetupAcionBar(){
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar !=null){
+            // Apresenta o botão de voltar no menu
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     /**
@@ -47,10 +61,13 @@ public class MovieActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     switch(item.getItemId()){
+        // Verifica se foi acionado o botão voltar para a activity principal
+        case R.id.main_activity_nav:
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
         case R.id.action_settings:
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
-
         default:  return super.onOptionsItemSelected(item);
     }
 }

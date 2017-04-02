@@ -8,7 +8,9 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
+import android.view.MenuItem;
 
 import com.android.nanodegree.udacity.myappportifolio.R;
 
@@ -98,10 +100,20 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
+        if (actionBar != null)  {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            // Verifica se foi acionado o botão voltar para a activity principal
+            case R.id.movies_container:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:  return super.onOptionsItemSelected(item);
+        }
+    }
 }

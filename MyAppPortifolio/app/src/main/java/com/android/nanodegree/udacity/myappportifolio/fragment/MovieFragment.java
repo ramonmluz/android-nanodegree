@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.android.nanodegree.udacity.myappportifolio.R;
 import com.android.nanodegree.udacity.myappportifolio.VO.Movie;
@@ -49,8 +50,10 @@ public class MovieFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
+
 
     @Override
     public void onStart() {
@@ -121,9 +124,6 @@ public class MovieFragment extends Fragment {
         @Override
         protected Movie[] doInBackground(String... params) {
 
-            //https://api.themoviedb.org/3/movie/popular?api_key=<<api_key>>&language=en-US&page=1
-            //https://api.themoviedb.org/3/movie/top_rated?api_key=<<api_key>>&language=en-US&page=1
-
             // Parâmetros
             final String POPULAR_MOVIE_URL = "https://api.themoviedb.org/3/movie/";
             final String API_KEY = "api_key";
@@ -145,9 +145,12 @@ public class MovieFragment extends Fragment {
                 fillMovieJson(urlConnection);
 
             }  catch (IOException e) {
+                if("".equals(keyMovieDb) || keyMovieDb == null ){
+                    Toast.makeText(getContext(),"Is necessary create a key in Site: https://api.themoviedb.org",Toast.LENGTH_LONG).show();
+                }
                 Log.e(LOG_TAG,"Error",e);
                 movieJsonStr = null;
-            }finally {
+            } finally {
                 if(urlConnection!=null){
                     urlConnection.disconnect();
                 }
