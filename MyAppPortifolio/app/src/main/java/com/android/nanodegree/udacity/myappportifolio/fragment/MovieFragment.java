@@ -50,7 +50,6 @@ public class MovieFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
     }
 
@@ -117,8 +116,13 @@ public class MovieFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Movie[] moviesParam) {
-            movieArrayAdapter = new MovieArrayAdapter(getActivity(), 0, Arrays.asList(moviesParam));
-            gridView.setAdapter(movieArrayAdapter);
+            if(moviesParam == null){
+                Toast.makeText(getContext(),"Is necessary create a key in Site: https://api.themoviedb.org",Toast.LENGTH_LONG).show();
+            }else{
+                movieArrayAdapter = new MovieArrayAdapter(getActivity(), 0, Arrays.asList(moviesParam));
+                gridView.setAdapter(movieArrayAdapter);
+            }
+
         }
 
         @Override
@@ -145,9 +149,6 @@ public class MovieFragment extends Fragment {
                 fillMovieJson(urlConnection);
 
             }  catch (IOException e) {
-                if("".equals(keyMovieDb) || keyMovieDb == null ){
-                    Toast.makeText(getContext(),"Is necessary create a key in Site: https://api.themoviedb.org",Toast.LENGTH_LONG).show();
-                }
                 Log.e(LOG_TAG,"Error",e);
                 movieJsonStr = null;
             } finally {

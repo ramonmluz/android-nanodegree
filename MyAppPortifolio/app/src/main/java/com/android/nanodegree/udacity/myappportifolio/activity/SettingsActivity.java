@@ -109,8 +109,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            // Verifica se foi acionado o botão voltar para a activity principal
-            case R.id.movies_container:
+            // Verifica se foi acionado o botão voltar
+            case android.R.id.home:
+                // Invoca a activity principal
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             default:  return super.onOptionsItemSelected(item);

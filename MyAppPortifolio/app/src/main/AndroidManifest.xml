@@ -22,6 +22,8 @@
             android:name=".activity.MovieActivity"
             android:label="@string/title_activity_movie"
             android:theme="@style/AppTheme.NoActionBar">
+
+            <!-- Estando exibido  o botão voltar na actionBar este é chama a activity principal  por esta anotação -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.nanodegree.udacity.myappportifolio.activity.MainActivity"/>
@@ -37,11 +39,9 @@
             android:name=".activity.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
             android:theme="@style/AppTheme.NoActionBar">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.nanodegree.udacity.myappportifolio.activity.MovieActivity"/>
-
         </activity>
     </application>
 

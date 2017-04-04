@@ -1,6 +1,7 @@
 package com.android.nanodegree.udacity.myappportifolio.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -23,6 +24,19 @@ public class MovieDetailActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
+        setupActionBar();
+    }
+
+
+    /**
+     * Set up the {@link android.app.ActionBar}, if the API is available.
+     */
+    private void setupActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)  {
+            // Show the Up button in the action bar.
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 }
