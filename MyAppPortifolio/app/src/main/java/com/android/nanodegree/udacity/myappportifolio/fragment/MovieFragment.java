@@ -55,35 +55,9 @@ public class MovieFragment extends Fragment {
         moviesRecyclerView.setAdapter( new MovieRecyclerViewAdapter(new ArrayList<Movie>()));
 
         return moviesRecyclerView;
-
-       /* Movie[] movieArray = {};
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
-
-        movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(getActivity(), 0, Arrays.asList(movieArray));
-
-        gridView = (GridView) rootView.findViewById(R.id.movies_grid);
-
-        gridView.setAdapter(movieRecyclerViewAdapter);
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Obtem o filme clicado
-                Movie movie = (Movie) parent.getItemAtPosition(position);
-                // Instancia a activity
-                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
-                // Informa  o parâmetro
-                intent.putExtra(Intent.EXTRA_INITIAL_INTENTS, movie);
-                // Chama a activity
-                startActivity(intent);
-            }
-        });*/
-
     }
 
     private void updateMovies() {
-
         //Obtem a forma de classifiação a partir das preferências do usuário.
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         // Obtem a clissificação selecionada

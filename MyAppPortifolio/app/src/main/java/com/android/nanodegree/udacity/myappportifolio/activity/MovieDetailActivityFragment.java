@@ -13,10 +13,20 @@ import com.android.nanodegree.udacity.myappportifolio.R;
 import com.android.nanodegree.udacity.myappportifolio.VO.Movie;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MovieDetailActivityFragment extends Fragment {
+
+    // Intanciando os componentes da tela via BindView da lib butterknife
+    @BindView(R.id.original_title) TextView originalTitle;
+    @BindView(R.id.movie_image) ImageView movieImage;
+    @BindView(R.id.release_date) TextView releaseDate;
+    @BindView(R.id.vote_average) TextView voteAverage;
+    @BindView(R.id.overview) TextView overview;
 
     public MovieDetailActivityFragment() {
     }
@@ -33,12 +43,7 @@ public class MovieDetailActivityFragment extends Fragment {
                 // Obtendo a parâmetro informado na Intent
                 Movie movie = intent.getParcelableExtra(Intent.EXTRA_INITIAL_INTENTS);
 
-                // Intanciando os componentes da tela
-                TextView originalTitle = (TextView) rootView.findViewById(R.id.original_title);
-                ImageView movieImage = (ImageView) rootView.findViewById(R.id.movie_image) ;
-                TextView releaseDate = (TextView) rootView.findViewById(R.id.release_date);
-                TextView voteAverage = (TextView) rootView.findViewById(R.id.vote_average);
-                TextView overview = (TextView) rootView.findViewById(R.id.overview);
+                ButterKnife.bind(this, rootView);
 
                 // Preenchendo os dados
                 originalTitle.setText(movie.getOriginalTitle());

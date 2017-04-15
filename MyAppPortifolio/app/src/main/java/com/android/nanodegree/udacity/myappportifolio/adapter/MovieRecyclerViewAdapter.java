@@ -27,42 +27,19 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public ImageView posterView;
+        public ImageView movieImageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             // Carrega a imagem do item da RecycleView layout
-            posterView = (ImageView) itemView.findViewById(R.id.movie_image_grid);
+            movieImageView = (ImageView) itemView.findViewById(R.id.movie_image_grid);
         }
     }
 
     public MovieRecyclerViewAdapter(List<Movie> movies) {
         this.movies = movies;
     }
-
-   /* @NonNull
-    @Override
-   public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-
-        Movie movie = getItem(position);
-        // Verifica se o layout está sendo apresentado
-        if(convertView == null){
-            // Carrega o layout a partir do id do Item presente na ViewGroup
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_movie,parent,false);
-        }
-
-
-        // Instacia a imagem do layout carregado
-        ImageView posterView = (ImageView) convertView.findViewById(R.id.list_item_movie_image);
-
-        // Obtem a imagem do filme e a insere no componente de imagem instaciada
-        Picasso.with(getContext()).load(movie.getPosterPath()).into(posterView);
-
-        convertView.setLayoutParams(new GridView.LayoutParams(GridView.AUTO_FIT,parent.getMeasuredHeight()/2));
-        return convertView;
-    }*/
 
     @Override
     public MovieRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -75,7 +52,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     public void onBindViewHolder(final MovieRecyclerViewAdapter.ViewHolder holder, int position) {
         final Movie movie = movies.get(position);
 
-        holder.posterView.setOnClickListener(new View.OnClickListener() {
+        holder.movieImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
@@ -89,7 +66,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         });
 
         // Obtem a imagem do filme e a insere no componente de imagem instaciada
-        Picasso.with(holder.posterView.getContext()).load(movie.getPosterPath()).into(holder.posterView);
+        Picasso.with(holder.movieImageView.getContext()).load(movie.getPosterPath()).into(holder.movieImageView);
 
     }
 
