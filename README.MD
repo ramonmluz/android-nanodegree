@@ -1,4 +1,11 @@
-======================================
-Nanodgree Projects 
 
-1 - Creating App Portifolio - Criate Design and build a layout in Android Studio   
+# Projetos Nanodegree 
+
+Neste repositório é apresentado os módulos do curso nanodegree 
+
+## Projeto Sunshine
+
+## Projeto Movie
+
+
+
