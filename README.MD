@@ -10,7 +10,7 @@ App preparatório para o projeto de filmes do app MyAppPrtifolio.
 É subidivido em 5 apps: PopularMovies, Stock Hanck, Buid it Bigger, Make Your App Material and Go Ubiquitous.
   
 ### PopularMovies 
-Neste App é criada uma lista de filmes através do serviço https://developers.themoviedb.org, onde cada detalhe desse filme é comósto por trailers, pontuação, entre outos.  
+Neste App é criada uma lista de filmes através do serviço https://developers.themoviedb.org, onde cada detalhe desse filme é composto por trailers, pontuação,resumo, entre outras características.
 
 #### Uso
 Antes de executar o app necessário criar uma conta e uma chave para aplicação através do site: https://www.themoviedb.org/.
