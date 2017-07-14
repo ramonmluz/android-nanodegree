@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.nanodegree.udacity.myappportifolio.R;
-import com.android.nanodegree.udacity.myappportifolio.VO.Movie;
-import com.android.nanodegree.udacity.myappportifolio.adapter.MovieRecyclerViewAdapter;
+import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Movie;
+import com.android.nanodegree.udacity.myappportifolio.adapter.movie.MovieRecyclerViewAdapter;
 import com.android.nanodegree.udacity.myappportifolio.task.FecthMovieTask;
 
 import java.util.ArrayList;

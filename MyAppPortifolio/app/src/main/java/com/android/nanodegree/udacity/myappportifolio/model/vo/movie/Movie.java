@@ -1,4 +1,4 @@
-package com.android.nanodegree.udacity.myappportifolio.VO;
+package com.android.nanodegree.udacity.myappportifolio.model.vo.movie;
 
 import android.os.Parcel;
 import android.os.Parcelable;

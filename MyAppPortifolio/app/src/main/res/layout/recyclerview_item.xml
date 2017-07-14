@@ -11,5 +11,4 @@
         android:layout_margin="0dp"
         android:adjustViewBounds="true"
         android:id="@+id/movie_image_grid"/>
-
 </FrameLayout>

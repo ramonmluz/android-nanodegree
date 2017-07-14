@@ -8,8 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.nanodegree.udacity.myappportifolio.VO.Movie;
-import com.android.nanodegree.udacity.myappportifolio.adapter.MovieRecyclerViewAdapter;
+import com.android.nanodegree.udacity.myappportifolio.util.Constants;
+import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Movie;
+import com.android.nanodegree.udacity.myappportifolio.adapter.movie.MovieRecyclerViewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,22 +57,11 @@ public class FecthMovieTask extends AsyncTask<String, Void, Movie[]> {
         @Override
         protected Movie[] doInBackground(String... params) {
 
-            // Parâmetros
-            final String POPULAR_MOVIE_URL = "https://api.themoviedb.org/3/movie/";
-            final String API_KEY = "api_key";
-            final String LANGUAGE = "language";
-            final String PAGE = "page";
-
-            // Valores
-            String keyMovieDb = "";
-            String language = "en-US";
-            String page = "1";
-
             // Fará a conexão
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
-            Uri builtUri = buildUri(POPULAR_MOVIE_URL,params, API_KEY, LANGUAGE, PAGE, keyMovieDb, language, page);
+            Uri builtUri = buildUri(Constants.POPULAR_MOVIE_URL,params);
             try {
                 urlConnection = buildHttpURLConnection(builtUri);
                 fillMovieJson(urlConnection);
@@ -158,13 +148,12 @@ public class FecthMovieTask extends AsyncTask<String, Void, Movie[]> {
             return urlConnection;
         }
 
-        private Uri buildUri(String POPULAR_MOVIE_URL, String[] params, String API_KEY, String LANGUAGE, String PAGE,
-                             String keyMovieDb, String language, String page) {
+        private Uri buildUri(String POPULAR_MOVIE_URL, String[] params) {
             // Construindo uma URI
             return Uri.parse(POPULAR_MOVIE_URL).buildUpon()
                     .appendPath(params[0])
-                    .appendQueryParameter(API_KEY, keyMovieDb)
-                    .appendQueryParameter(LANGUAGE, language)
-                    .appendQueryParameter(PAGE, page).build();
+                    .appendQueryParameter(Constants.API_KEY, Constants.KEY_MOVIE_DB)
+                    .appendQueryParameter(Constants.LANGUAGE, Constants.LANGUAGE_VALUE)
+                    .appendQueryParameter(Constants.PAGE, Constants.PAGE_VALUE).build();
         }
     }

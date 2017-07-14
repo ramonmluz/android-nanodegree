@@ -1,4 +1,4 @@
-package com.android.nanodegree.udacity.myappportifolio.activity;
+package com.android.nanodegree.udacity.myappportifolio.view.movie;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;

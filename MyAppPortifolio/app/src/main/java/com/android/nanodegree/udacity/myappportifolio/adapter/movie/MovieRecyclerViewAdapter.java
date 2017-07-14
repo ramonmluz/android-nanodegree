@@ -1,4 +1,4 @@
-package com.android.nanodegree.udacity.myappportifolio.adapter;
+package com.android.nanodegree.udacity.myappportifolio.adapter.movie;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.android.nanodegree.udacity.myappportifolio.R;
-import com.android.nanodegree.udacity.myappportifolio.VO.Movie;
-import com.android.nanodegree.udacity.myappportifolio.activity.MovieDetailActivity;
+import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Movie;
+import com.android.nanodegree.udacity.myappportifolio.view.movie.MovieDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,7 +23,6 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
     private static String LOG_TAG = MovieRecyclerViewAdapter.class.getSimpleName();
     private List<Movie> movies;
-
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 

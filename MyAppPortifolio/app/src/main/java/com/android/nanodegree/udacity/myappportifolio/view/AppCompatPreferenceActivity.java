@@ -1,4 +1,4 @@
-package com.android.nanodegree.udacity.myappportifolio.activity;
+package com.android.nanodegree.udacity.myappportifolio.view;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

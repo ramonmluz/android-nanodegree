@@ -19,8 +19,24 @@ android {
         }
     }
 
+  /*  sourceSets {
+        main {
+            res.srcDirs = [
+
+                           'src/main/res/layout/movie/recyclerview',
+                           'src/main/res/layout/movie/contet',
+                           'src/main/res/layout/movie/fragment',
+                           'src/main/res/layout/movie/activity',
+                           'src/main/res/layout/movie/',
+                           'src/main/res/layout/',
+                           'src/main/res/'
+            ]
+        }
+    }*/
+
 
 }
+
 
 
 
@@ -34,6 +50,8 @@ dependencies {
     compile 'com.android.support:design:25.3.0'
     compile "com.android.support:recyclerview-v7:25.1.1"
     compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.android.volley:volley:1.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     testCompile 'junit:junit:4.12'
+    compile 'com.google.code.gson:gson:2.8.1'
 }

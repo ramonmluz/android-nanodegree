@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".view.movie.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -19,29 +19,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MovieActivity"
+            android:name=".view.movie.MovieActivity"
             android:label="@string/title_activity_movie"
             android:theme="@style/AppTheme.NoActionBar">
 
             <!-- Estando exibido  o botão voltar na actionBar este é chama a activity principal  por esta anotação -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.nanodegree.udacity.myappportifolio.activity.MainActivity"/>
+                android:value="com.android.nanodegree.udacity.myappportifolio.view.movie.MainActivity"/>
         </activity>
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".view.movie.SettingsActivity"
             android:label="@string/title_activity_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.nanodegree.udacity.myappportifolio.activity.MovieActivity"/>
+                android:value="com.android.nanodegree.udacity.myappportifolio.view.movie.MovieActivity"/>
         </activity>
         <activity
-            android:name=".activity.MovieDetailActivity"
+            android:name=".view.movie.MovieDetailActivity"
             android:label="@string/title_activity_movie_detail"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.nanodegree.udacity.myappportifolio.activity.MovieActivity"/>
+                android:value="com.android.nanodegree.udacity.myappportifolio.view.movie.MovieActivity"/>
         </activity>
     </application>
 

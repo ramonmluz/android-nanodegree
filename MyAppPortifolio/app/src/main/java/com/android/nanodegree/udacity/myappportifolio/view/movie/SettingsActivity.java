@@ -1,4 +1,4 @@
-package com.android.nanodegree.udacity.myappportifolio.activity;
+package com.android.nanodegree.udacity.myappportifolio.view.movie;
 
 
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import com.android.nanodegree.udacity.myappportifolio.R;
+import com.android.nanodegree.udacity.myappportifolio.view.AppCompatPreferenceActivity;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On

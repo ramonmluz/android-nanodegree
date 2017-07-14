@@ -1,4 +1,4 @@
-package com.android.nanodegree.udacity.myappportifolio.activity;
+package com.android.nanodegree.udacity.myappportifolio.view.movie;
 
 import android.content.Intent;
 import android.os.Bundle;
