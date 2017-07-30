@@ -20,7 +20,7 @@ public class Constants {
     public static final String MOVIE = "movie";
 
     // Valores
-    public static String KEY_MOVIE_DB = "";
+    public static String KEY_MOVIE_DB = "c4852d11798d35ebae996afb362875d4";
     public static String LANGUAGE_VALUE = "en-US";
     public static String PAGE_VALUE = "1";
 
