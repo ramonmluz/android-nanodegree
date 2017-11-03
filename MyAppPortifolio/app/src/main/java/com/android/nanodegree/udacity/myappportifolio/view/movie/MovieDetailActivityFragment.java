@@ -247,7 +247,7 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
             }
         } catch (Exception e) {
             Log.e(Constants.TAG_MOVIE_DATAIL, e.getMessage());
-            fillVisibiltyFavoriteMovie(View.VISIBLE, View.GONE);git
+            fillVisibiltyFavoriteMovie(View.VISIBLE, View.GONE);
         }
     }
 
