@@ -1,10 +1,10 @@
 package com.android.nanodegree.udacity.myappportifolio.view.movie;
 
-import android.content.DialogInterface;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.android.nanodegree.udacity.myappportifolio.R;
 import com.android.nanodegree.udacity.myappportifolio.adapter.movie.ReviewRecyclerViewAdapter;
 import com.android.nanodegree.udacity.myappportifolio.adapter.movie.TrailerRecyclerViewAdapter;
+import com.android.nanodegree.udacity.myappportifolio.model.data.MovieContract;
 import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Movie;
 import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Review;
 import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Trailer;
@@ -25,6 +26,7 @@ import com.android.nanodegree.udacity.myappportifolio.presenter.movie.MovieTrail
 import com.android.nanodegree.udacity.myappportifolio.presenterImpl.movie.MovieReviewPresenterImpl;
 import com.android.nanodegree.udacity.myappportifolio.presenterImpl.movie.MovieTrailerPresenterImpl;
 import com.android.nanodegree.udacity.myappportifolio.util.Constants;
+import com.android.nanodegree.udacity.myappportifolio.util.Util;
 import com.android.volley.VolleyError;
 import com.squareup.picasso.Picasso;
 
@@ -40,13 +42,17 @@ import butterknife.ButterKnife;
  */
 public class MovieDetailActivityFragment extends Fragment implements MovieView {
 
-   private JSONObject jsonObject;
-   private MovieTrailerPresenter movieTrailerPresenter;
-   private MovieReviewPresenter movieReviewPresenter;
-   private RecyclerView trailerRecyclerView;
-   private RecyclerView reviewRecyclerView;
+
+    private Movie movie;
+    private MovieTrailerPresenter movieTrailerPresenter;
+    private MovieReviewPresenter movieReviewPresenter;
 
     // Intanciando os componentes da tela via BindView da lib butterknife
+    @BindView(R.id.recycler_movie_trailer_list)
+    RecyclerView trailerRecyclerView;
+    @BindView(R.id.recycler_movie_review_list)
+    RecyclerView reviewRecyclerView;
+
     @BindView(R.id.original_title)
     TextView originalTitle;
     @BindView(R.id.movie_image)
@@ -58,21 +64,25 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
     @BindView(R.id.overview)
     TextView overview;
 
-    public MovieDetailActivityFragment() {
-    }
+    @BindView(R.id.favorite_off)
+    ImageView favoriteOff;
+    @BindView(R.id.favorite_on)
+    ImageView favoriteOn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
-
         Intent intent = getActivity().getIntent();
+
         // Verifica se a intent não está preenchida e se tem objeto a partir do parâmetro informado
         if (intent != null && intent.hasExtra(Intent.EXTRA_INITIAL_INTENTS)) {
-            // Obtendo a parâmetro informado na Intent
-            Movie movie = intent.getParcelableExtra(Intent.EXTRA_INITIAL_INTENTS);
+
             ButterKnife.bind(this, rootView);
+
+            // Obtendo a parâmetro informado na Intent
+            this.movie = intent.getParcelableExtra(Intent.EXTRA_INITIAL_INTENTS);
 
             // Preenchendo os dados
             originalTitle.setText(movie.getOriginalTitle());
@@ -81,18 +91,62 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
             voteAverage.setText(movie.getVoteAverage());
             overview.setText(movie.getOverview());
 
-            // Inciando o adapter
-            initTrailerAdapter(rootView);
-            initReviewAdapter(rootView);
+            onclickFavoriteMovieImageView();
+            String sortType = Util.getSharedPreferences(getActivity());
 
-            // Instancia o presenter do trailer
-            movieTrailerPresenter = new MovieTrailerPresenterImpl(this, getActivity(), movie.getId());
-            // Instancia o presenter da Review
-            movieReviewPresenter = new MovieReviewPresenterImpl(this, getActivity(), movie.getId());
+            if (sortType.equals(getString(R.string.favorite_movies_value))) {
+                trailerRecyclerView.setVisibility(View.GONE);
+                reviewRecyclerView.setVisibility(View.VISIBLE);
+            } else {
+                // Só existe os trailers e views se a classificação de filmes escolhida não  for favorita
+                serchTraliersViews(rootView);
+            }
 
-            obtainRequests();
         }
         return rootView;
+    }
+
+    /**
+     * Instancia o click listener do image view
+     */
+    private void onclickFavoriteMovieImageView() {
+        favoriteOff.setOnClickListener(
+                view -> {
+                    fillVisibiltyFavoriteMovie(View.GONE, View.VISIBLE);
+                    insertFavoriteMovie();
+                }
+        );
+
+        favoriteOn.setOnClickListener(
+                view -> {
+                    fillVisibiltyFavoriteMovie(View.VISIBLE, View.GONE);
+                    deleteFavoriteMovie();
+                }
+        );
+    }
+
+    /**
+     * Inicia a pesquisa por trailers and Views
+     *
+     * @param rootView
+     */
+    private void serchTraliersViews(View rootView) {
+
+        Integer resultQuery = obtainCountResultQuery();
+        if (resultQuery != null && resultQuery > 0) {
+            fillVisibiltyFavoriteMovie(View.GONE, View.VISIBLE);
+        }
+
+        // Inciando o adapter
+        initTrailerAdapter(rootView);
+        initReviewAdapter(rootView);
+
+        // Instancia o presenter do trailer
+        movieTrailerPresenter = new MovieTrailerPresenterImpl(this, getActivity(), movie.getId());
+        // Instancia o presenter da Review
+        movieReviewPresenter = new MovieReviewPresenterImpl(this, getActivity(), movie.getId());
+
+        obtainRequests();
     }
 
     /**
@@ -103,22 +157,22 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
         obtainRequestReviews();
     }
 
-    private void initTrailerAdapter(View rootView){
-        trailerRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_movie_trailer_list);
+    private void initTrailerAdapter(View rootView) {
+//        trailerRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_movie_trailer_list);
         trailerRecyclerView.setLayoutManager(new LinearLayoutManager(trailerRecyclerView.getContext()));
-//        trailerRecyclerView.setAdapter(new TrailerRecyclerViewAdapter(new ArrayList<Trailer>()));
-    }
-    private void initReviewAdapter(View rootView){
-        reviewRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_movie_review_list);
-        reviewRecyclerView.setLayoutManager(new LinearLayoutManager(reviewRecyclerView.getContext()));
-//        reviewRecyclerView.setAdapter(new ReviewRecyclerViewAdapter(new ArrayList<Review>()));
     }
 
-    public void obtainRequestTrailers(){
-           movieTrailerPresenter.obtainTrailersMoviesVolley();
+    private void initReviewAdapter(View rootView) {
+//        reviewRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_movie_review_list);
+        reviewRecyclerView.setLayoutManager(new LinearLayoutManager(reviewRecyclerView.getContext()));
     }
-    public void obtainRequestReviews(){
-           movieReviewPresenter.obtainReviewsMoviesVolley();
+
+    public void obtainRequestTrailers() {
+        movieTrailerPresenter.obtainTrailersMoviesVolley();
+    }
+
+    public void obtainRequestReviews() {
+        movieReviewPresenter.obtainReviewsMoviesVolley();
     }
 
     @Override
@@ -136,17 +190,85 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
     @Override
     public void notifyError(VolleyError error) {
         Log.e(Constants.TAG_MOVIE_DATAIL, error.toString());
+        Util.sendMessageDilog("Alert", "Is necessary create a key in Site: https://api.themoviedb.org", getActivity());
+    }
 
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage("Is necessary create a key in Site: https://api.themoviedb.org");
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+    /**
+     * Preenche a visibilidade das imagens de estrela
+     *
+     * @param favoriteMovieOff
+     * @param favoriteMovieOn
+     */
+    private void fillVisibiltyFavoriteMovie(int favoriteMovieOff, int favoriteMovieOn) {
+        favoriteOff.setVisibility(favoriteMovieOff);
+        favoriteOn.setVisibility(favoriteMovieOn);
+    }
+
+    /**
+     * Query para saber se o filme já foi armazenado como favorito na base atual
+     *
+     * @return
+     */
+    private Integer obtainCountResultQuery() {
+        try {
+            return getContext().getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI, new String[]{MovieContract.MovieEntry._ID}
+                    , MovieContract.MovieEntry.COLUMN_MOVIE_ID + " = ?", new String[]{movie.getId()}, null).getCount();
+
+        } catch (Exception e) {
+            Log.e(Constants.TAG_MOVIE_DATAIL, e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
+     * Inserção dos dados principais do filme na base local
+     */
+    private void insertFavoriteMovie() {
+        Uri uri = null;
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movie.getId());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, movie.getPosterPath());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, movie.getOriginalTitle());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, movie.getOverview());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
+        contentValues.put(MovieContract.MovieEntry.COLUMN_RELEASEDATE, movie.getReleaseDate());
+
+        try {
+            uri = getContext().getContentResolver().insert(MovieContract.MovieEntry.CONTENT_URI, contentValues);
+
+            if (uri != null) {
+                Log.d(Constants.TAG_MOVIE_DATAIL, "Qtd Rows inserted : " + uri.toString());
+                // Toast.makeText(getContext(), uri.toString(), Toast.LENGTH_LONG).show();
+            } else {
+                fillVisibiltyFavoriteMovie(View.VISIBLE, View.GONE);
             }
-        });
-        alertDialog.show();
+        } catch (Exception e) {
+            Log.e(Constants.TAG_MOVIE_DATAIL, e.getMessage());
+            fillVisibiltyFavoriteMovie(View.VISIBLE, View.GONE);git
+        }
+    }
 
+
+    /**
+     * deleção dos dados principais do filme na base local
+     */
+    private void deleteFavoriteMovie() {
+        int deleteResult = 0;
+        try {
+             deleteResult = getContext().getContentResolver().delete(MovieContract.MovieEntry.CONTENT_URI,
+                    MovieContract.MovieEntry.COLUMN_MOVIE_ID + " LIKE  ?",
+                    new String[]{MovieContract.MovieEntry.COLUMN_MOVIE_ID});
+             if(deleteResult == 0){
+                 fillVisibiltyFavoriteMovie(View.GONE, View.VISIBLE);
+             }
+        } catch (Exception e) {
+            Log.e(Constants.TAG_MOVIE_DATAIL, e.getMessage());
+            fillVisibiltyFavoriteMovie(View.GONE, View.VISIBLE);
+        }
+
+       // Log.d(Constants.TAG_MOVIE_DATAIL, "Qtd Rows deleted :" + deleteResult);
     }
 }

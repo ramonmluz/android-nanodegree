@@ -43,6 +43,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.nanodegree.udacity.myappportifolio.view.movie.MovieActivity"/>
         </activity>
+
+        <provider
+            android:authorities="com.android.nanodegree.udacity.myappportifolio"
+            android:name="com.android.nanodegree.udacity.myappportifolio.model.data.MovieContentProvider"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

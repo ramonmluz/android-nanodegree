@@ -10,15 +10,16 @@ import android.os.Parcelable;
 public class Movie implements Parcelable {
 
     public static final String BASE_URL_IMAGE = "http://image.tmdb.org/t/p/w185";
+
     private String id;
     private String posterPath;
     private String originalTitle;
-    private  String overview;
-    private  String voteAverage;
+    private String overview;
+    private String voteAverage;
     private String releaseDate;
 
-
-    public Movie(){}
+    public Movie() {
+    }
 
     public Movie(String id, String posterPath, String originalTitle, String overview, String voteAverage, String releaseDate) {
         this.id = id;
@@ -32,6 +33,7 @@ public class Movie implements Parcelable {
 
     /**
      * Desserialiaza os atributos
+     *
      * @param in
      */
     protected Movie(Parcel in) {
@@ -65,6 +67,7 @@ public class Movie implements Parcelable {
 
     /**
      * Serializa os atibutos (transforma em bytes)
+     *
      * @param parcel
      * @param i
      */
@@ -79,8 +82,8 @@ public class Movie implements Parcelable {
     }
 
 
-    public enum  ParametersEnum{
-        RESULTS("results"), ID("id"),  POSTER_PATH("poster_path"), ORIGINAL_TITLE("original_title"), OVERVIEW("overview"),
+    public enum ParametersEnum {
+        RESULTS("results"), ID("id"), POSTER_PATH("poster_path"), ORIGINAL_TITLE("original_title"), OVERVIEW("overview"),
         VOTE_AVERAGE("vote_average"), RELEASE_DATE("release_date");
 
         private final String value;
