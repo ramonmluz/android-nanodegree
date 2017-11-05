@@ -106,7 +106,7 @@ public class MovieContentProvider extends ContentProvider {
                 long id = db.insert(MovieContract.MovieEntry.TABLE_NAME, null, contentValues);
 
                 if (id > 0) {
-                    ContentUris.withAppendedId(MovieContract.MovieEntry.CONTENT_URI, id);
+                    returnUri =  ContentUris.withAppendedId(MovieContract.MovieEntry.CONTENT_URI, id);
                 } else {
                     throw new SQLException("Failed to insert row  into" + uri);
                 }
@@ -115,14 +115,36 @@ public class MovieContentProvider extends ContentProvider {
                 throw new UnsupportedOperationException(" Unknow uri " + uri);
         }
 
-        getContext().getContentResolver().notifyChange(uri,null);
+        getContext().getContentResolver().notifyChange(uri, null);
 
         return returnUri;
     }
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+
+        // Obtendo uma instancia pra escrever um dado
+        final SQLiteDatabase db = movieDbHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+        int resultDelete = 0;
+
+        switch (match) {
+            case MOVIE:
+                String movie_id = uri.getPathSegments().get(1);
+                resultDelete = db.delete(MovieContract.MovieEntry.TABLE_NAME,
+                        MovieContract.MovieEntry.COLUMN_MOVIE_ID + " LIKE  ?",
+                        new String[]{movie_id});
+                break;
+            default:
+                throw new UnsupportedOperationException(" Unknow uri " + uri);
+        }
+
+        if (resultDelete != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return resultDelete;
     }
 
     @Override

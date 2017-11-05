@@ -9,6 +9,8 @@
     <color name="indigoColor">#3F51B5</color>
     <color name="whiteColor">#FFFFFF</color>
     <color name="teal">#009688</color>
+    <color name="darker_gray">#A9A9A9</color>
+
 
 
 </resources>

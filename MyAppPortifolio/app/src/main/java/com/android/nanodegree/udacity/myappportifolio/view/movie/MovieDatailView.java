@@ -8,7 +8,7 @@ import com.android.volley.VolleyError;
 import java.util.List;
 
 
-public interface MovieView {
+public interface MovieDatailView {
 
       void fillTrailersRecyclerView(List<Trailer> trailers);
       void fillReviewsRecyclerView(List<Review> reviews);

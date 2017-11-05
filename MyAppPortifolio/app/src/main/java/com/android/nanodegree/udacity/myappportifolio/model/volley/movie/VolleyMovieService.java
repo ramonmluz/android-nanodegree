@@ -7,7 +7,7 @@ import android.util.Log;
 import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Movie;
 import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Trailer;
 import com.android.nanodegree.udacity.myappportifolio.model.volley.VolleyRequest;
-import com.android.nanodegree.udacity.myappportifolio.presenter.movie.MovieTrailerPresenter;
+import com.android.nanodegree.udacity.myappportifolio.presenter.movie.MoviePresenter;
 import com.android.nanodegree.udacity.myappportifolio.util.Constants;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,59 +26,59 @@ import static com.android.nanodegree.udacity.myappportifolio.util.Constants.PAGE
 
 
 /**
- * Created by ramon on 08/06/17.
+ * Created by ramon on 05/11/17.
  */
 
-public class VolleyMovieTrailerService {
+public class VolleyMovieService {
 
     private Context context;
     private JSONObject movieJsonObject;
     private List<Movie> movies;
-    private String moviesId;
-    private RequestTrailersListner requestTrailersListner;
-    private MovieTrailerPresenter.IResult resultListner;
+    private String sortMovie;
+    private RequestMoviesListner requestMoviesListner;
+    private MoviePresenter.IResult resultListner;
 
 
-    public VolleyMovieTrailerService(Context context, MovieTrailerPresenter.IResult resultListner, String moviesId) {
+    public VolleyMovieService(Context context, MoviePresenter.IResult resultListner, String sortMovie) {
         this.context = context;
         this.resultListner = resultListner;
-        this.moviesId = moviesId;
+        this.sortMovie = sortMovie;
     }
 
 
-    public void obtainTrailersMoviesVolley() {
-        Uri uri = buildTrailerdUri(moviesId);
+    public void obtainMoviesVolley() {
+        Uri uri = buildMoviesdUri(sortMovie);
 
-        requestTrailersListner = new RequestTrailersListner();
+        requestMoviesListner = new RequestMoviesListner();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, uri.toString(), null,
-                requestTrailersListner, requestTrailersListner) {
+                requestMoviesListner, requestMoviesListner) {
         };
 
         // add it to the RequestQueue
         VolleyRequest.getInstance(context).addToRequestQueue(request);
     }
 
-    private Uri buildTrailerdUri(String movieId) {
+    private Uri buildMoviesdUri(String sortMovies) {
         // Construindo uma URI
         return Uri.parse(Constants.POPULAR_MOVIE_URL).buildUpon()
-                .appendPath(movieId)
-                .appendPath(Constants.VIDEOS)
+                .appendPath(sortMovies)
                 .appendQueryParameter(Constants.API_KEY, Constants.KEY_MOVIE_DB)
                 .appendQueryParameter(Constants.LANGUAGE, Constants.LANGUAGE_VALUE)
                 .appendQueryParameter(PAGE, Constants.PAGE_VALUE).build();
     }
 
-    private List <Trailer> obtainTrailersDataFromJson(JSONObject trailerMovieJsonObject) throws JSONException {
-        if (trailerMovieJsonObject != null) {
+
+    private List <Movie> obtainMoviesDataFromJson(JSONObject movieJsonObject) throws JSONException {
+        if (movieJsonObject != null) {
             Gson gson = new Gson();
-            JSONArray trailerArray = trailerMovieJsonObject.getJSONArray("results");
-            Trailer [] trailers = gson.fromJson(trailerArray.toString(),Trailer[].class);
-           return Arrays.asList(trailers);
+            JSONArray movieArray = movieJsonObject.getJSONArray("results");
+            Movie [] movies = gson.fromJson(movieArray.toString(),Movie[].class);
+           return Arrays.asList(movies);
         }
         return null;
     }
 
-    class RequestTrailersListner implements Response.Listener<JSONObject>, Response.ErrorListener {
+    class RequestMoviesListner implements Response.Listener<JSONObject>, Response.ErrorListener {
 
         @Override
         public void onErrorResponse(VolleyError error) {
@@ -90,7 +90,7 @@ public class VolleyMovieTrailerService {
         public void onResponse(JSONObject response) {
             Log.d("Response", response.toString());
             try {
-                resultListner.notifySuccess(obtainTrailersDataFromJson(response));
+                resultListner.notifySuccess(obtainMoviesDataFromJson(response));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.android.nanodegree.udacity.myappportifolio.R;
 import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Movie;
+import com.android.nanodegree.udacity.myappportifolio.util.Constants;
 import com.android.nanodegree.udacity.myappportifolio.view.movie.MovieDetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -65,7 +66,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         });
 
         // Obtem a imagem do filme e a insere no componente de imagem instaciada
-        Picasso.with(holder.movieImageView.getContext()).load(movie.getPosterPath()).into(holder.movieImageView);
+        Picasso.with(holder.movieImageView.getContext()).load(movie.getPosterPathUrl()).into(holder.movieImageView);
 
     }
 

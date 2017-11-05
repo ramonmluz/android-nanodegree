@@ -1,28 +1,26 @@
 package com.android.nanodegree.udacity.myappportifolio.fragment;
 
 
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.nanodegree.udacity.myappportifolio.R;
-import com.android.nanodegree.udacity.myappportifolio.model.data.MovieContract;
 import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Movie;
 import com.android.nanodegree.udacity.myappportifolio.adapter.movie.MovieRecyclerViewAdapter;
+import com.android.nanodegree.udacity.myappportifolio.presenter.movie.MoviePresenter;
+import com.android.nanodegree.udacity.myappportifolio.presenterImpl.movie.MoviePresenterImpl;
 import com.android.nanodegree.udacity.myappportifolio.task.CursorQueryMovieTask;
-import com.android.nanodegree.udacity.myappportifolio.task.FecthMovieTask;
+import com.android.nanodegree.udacity.myappportifolio.util.Constants;
 import com.android.nanodegree.udacity.myappportifolio.util.Util;
+import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +29,11 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieFragment extends Fragment {
+public class MovieFragment extends Fragment implements  MovieFragmentView{
 
     private RecyclerView moviesRecyclerView;
+
+    private MoviePresenter moviePresenter;
 
     private Cursor mData;
 
@@ -61,26 +61,26 @@ public class MovieFragment extends Fragment {
     }
 
     private void updateMovies() {
-//        //Obtem a forma de classifiação a partir das preferências do usuário.
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//        // Obtem a clissificação selecionada
-//        String sortType = prefs.getString(getString(R.string.movie_list_key), getString(R.string.popular_value));
-
           String sortType = Util.getSharedPreferences(getActivity());
-
-//        if (!sortType.equals(getString(R.string.popular_value))) {
-//            sortType = getString(R.string.top_rated_value);
-//        }
 
         if (sortType.equals(getString(R.string.favorite_movies_value))) {
             // Caso a classificação selecionada seja a de filmes favoritos chama-se o CursorQueryMovieTask
            new CursorQueryMovieTask(moviesRecyclerView, getActivity()).execute();
 
         } else {
-            FecthMovieTask movieTask = new FecthMovieTask(moviesRecyclerView, getContext());
 
-            // Invoca a classe assicrona
-            movieTask.execute(sortType);
+            // Verificar se tem internet...
+
+            // Instancia o presenter de acordo com a classificação escolhida
+            moviePresenter = new MoviePresenterImpl(this, getActivity(), sortType);
+
+            //busca os filmes
+            moviePresenter.obtainMoviesVolley();
+
+//            FecthMovieTask movieTask = new FecthMovieTask(moviesRecyclerView, getContext());
+//            // Invoca a classe assicrona
+//            movieTask.execute(sortType);
+
         }
 
     }
@@ -91,6 +91,17 @@ public class MovieFragment extends Fragment {
         updateMovies();
     }
 
+    @Override
+    public void fillMovieRecyclerView(List<Movie> movies) {
+        moviesRecyclerView.setAdapter(new MovieRecyclerViewAdapter(movies));
 
+    }
 
+    @Override
+    public void notifyError(VolleyError error) {
+        Log.e(Constants.TAG_MOVIE_FRAGMENT, error.toString());
+        moviesRecyclerView.setAdapter(new MovieRecyclerViewAdapter(new ArrayList<Movie>()));
+        Util.sendMessageDilog("Alert", "Is necessary create a key in Site: https://api.themoviedb.org", getActivity());
+
+    }
 }

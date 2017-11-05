@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    tools:context="com.android.nanodegree.udacity.myappportifolio.view.movie.MovieDetailActivityFragment"
+    tools:showIn="@layout/activity_movie_detail">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/original_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teal"
+            android:paddingBottom="16dp"
+            android:paddingLeft="32dp"
+            android:paddingTop="24dp"
+            android:textColor="@color/whiteColor"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/movie_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/original_title"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/movie_image"
+            android:layout_marginLeft="32dp"
+            android:layout_toRightOf="@+id/movie_image"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/vote_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/release_date"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/movie_image"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/favorite_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vote_average"
+            android:layout_marginLeft="27dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/movie_image"
+            android:src="@android:drawable/star_off"
+            android:clickable="true"/>
+
+        <ImageView
+            android:id="@+id/favorite_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vote_average"
+            android:layout_marginLeft="27dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/movie_image"
+            android:src="@android:drawable/star_on"
+            android:visibility="gone"
+            android:clickable="true" />
+
+        <TextView
+            android:id="@+id/overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/movie_image"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textSize="12sp" />
+
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/overview"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/black"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/trailer_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/separator"
+            android:layout_marginLeft="32dp"
+            android:text="Trailers:" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_movie_trailer_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/trailer_tx"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"></android.support.v7.widget.RecyclerView>
+
+        <View
+            android:id="@+id/separator_review"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/recycler_movie_trailer_list"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/black"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/review_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/separator_review"
+            android:layout_marginLeft="32dp"
+            android:text="Reviews:" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_movie_review_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/review_tx"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"></android.support.v7.widget.RecyclerView>
+
+
+    </RelativeLayout>
+</ScrollView>

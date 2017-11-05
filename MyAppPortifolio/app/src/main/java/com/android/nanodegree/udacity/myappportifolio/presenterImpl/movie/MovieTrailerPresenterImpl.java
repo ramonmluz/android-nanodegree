@@ -5,7 +5,7 @@ import android.content.Context;
 import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Trailer;
 import com.android.nanodegree.udacity.myappportifolio.model.volley.movie.VolleyMovieTrailerService;
 import com.android.nanodegree.udacity.myappportifolio.presenter.movie.MovieTrailerPresenter;
-import com.android.nanodegree.udacity.myappportifolio.view.movie.MovieView;
+import com.android.nanodegree.udacity.myappportifolio.view.movie.MovieDatailView;
 import com.android.volley.VolleyError;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MovieTrailerPresenterImpl implements MovieTrailerPresenter {
 
-    private MovieView mView;
+    private MovieDatailView mView;
     private Context context;
     private VolleyMovieTrailerService volleyMovieTrailerService;
     private IResult resultLisnter;
@@ -31,7 +31,7 @@ public class MovieTrailerPresenterImpl implements MovieTrailerPresenter {
         }
     }
 
-    public MovieTrailerPresenterImpl(MovieView view, Context context, String movieId) {
+    public MovieTrailerPresenterImpl(MovieDatailView view, Context context, String movieId) {
         this.mView = view;
         this.context = context;
         this.volleyMovieTrailerService = new VolleyMovieTrailerService(this.context, new ResulTrailersListner(), movieId);

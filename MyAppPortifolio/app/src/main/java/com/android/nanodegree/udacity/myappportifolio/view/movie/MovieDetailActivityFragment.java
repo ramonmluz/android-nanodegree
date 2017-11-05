@@ -26,11 +26,10 @@ import com.android.nanodegree.udacity.myappportifolio.presenter.movie.MovieTrail
 import com.android.nanodegree.udacity.myappportifolio.presenterImpl.movie.MovieReviewPresenterImpl;
 import com.android.nanodegree.udacity.myappportifolio.presenterImpl.movie.MovieTrailerPresenterImpl;
 import com.android.nanodegree.udacity.myappportifolio.util.Constants;
+import com.android.nanodegree.udacity.myappportifolio.util.SimpleDividerItemDecoration;
 import com.android.nanodegree.udacity.myappportifolio.util.Util;
 import com.android.volley.VolleyError;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ import butterknife.ButterKnife;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MovieDetailActivityFragment extends Fragment implements MovieView {
+public class MovieDetailActivityFragment extends Fragment implements MovieDatailView {
 
 
     private Movie movie;
@@ -63,11 +62,21 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
     TextView voteAverage;
     @BindView(R.id.overview)
     TextView overview;
+    @BindView(R.id.trailer_tx)
+    TextView traillerTx;
+    @BindView(R.id.review_tx)
+    TextView review_tx;
 
     @BindView(R.id.favorite_off)
     ImageView favoriteOff;
     @BindView(R.id.favorite_on)
     ImageView favoriteOn;
+
+    @BindView(R.id.separator)
+    View viewSeparotor;
+    @BindView(R.id.separator_review)
+    View viewSeparotorReview;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,8 +95,8 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
 
             // Preenchendo os dados
             originalTitle.setText(movie.getOriginalTitle());
-            Picasso.with(getContext()).load(movie.getPosterPath()).resize(300, 500).centerCrop().into(movieImage);
-            releaseDate.setText(movie.getReleaseDate());
+            Picasso.with(getContext()).load(movie.getPosterPathUrl()).resize(300, 500).centerCrop().into(movieImage);
+            releaseDate.setText(movie.getReleaseYear());
             voteAverage.setText(movie.getVoteAverage());
             overview.setText(movie.getOverview());
 
@@ -95,8 +104,9 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
             String sortType = Util.getSharedPreferences(getActivity());
 
             if (sortType.equals(getString(R.string.favorite_movies_value))) {
-                trailerRecyclerView.setVisibility(View.GONE);
-                reviewRecyclerView.setVisibility(View.VISIBLE);
+                disableTrailerRecyclerView();
+                disableReviewRecyclerView();
+                fillVisibiltyFavoriteMovie(View.GONE, View.VISIBLE);
             } else {
                 // Só existe os trailers e views se a classificação de filmes escolhida não  for favorita
                 serchTraliersViews(rootView);
@@ -104,6 +114,18 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
 
         }
         return rootView;
+    }
+
+    private void disableReviewRecyclerView() {
+        reviewRecyclerView.setVisibility(View.GONE);
+        viewSeparotorReview.setVisibility(View.GONE);
+        review_tx.setVisibility(View.GONE);
+    }
+
+    private void disableTrailerRecyclerView() {
+        trailerRecyclerView.setVisibility(View.GONE);
+        viewSeparotor.setVisibility(View.GONE);
+        traillerTx.setVisibility(View.GONE);
     }
 
     /**
@@ -158,13 +180,11 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
     }
 
     private void initTrailerAdapter(View rootView) {
-//        trailerRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_movie_trailer_list);
-        trailerRecyclerView.setLayoutManager(new LinearLayoutManager(trailerRecyclerView.getContext()));
+        trailerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void initReviewAdapter(View rootView) {
-//        reviewRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_movie_review_list);
-        reviewRecyclerView.setLayoutManager(new LinearLayoutManager(reviewRecyclerView.getContext()));
+        reviewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     public void obtainRequestTrailers() {
@@ -177,14 +197,26 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
 
     @Override
     public void fillTrailersRecyclerView(List<Trailer> trailers) {
-        // Preenche o RecyclerView de Trailer com a lista obtida do serviço
-        trailerRecyclerView.setAdapter(new TrailerRecyclerViewAdapter(trailers));
+
+        if(trailers != null && trailers.size()!= 0){
+            // Preenche o RecyclerView de Trailer com a lista obtida do serviço
+            trailerRecyclerView.setAdapter(new TrailerRecyclerViewAdapter(trailers));
+            trailerRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+        }else{
+            disableTrailerRecyclerView();
+        }
     }
 
     @Override
     public void fillReviewsRecyclerView(List<Review> reviews) {
-        // Preenche o RecyclerView de Review com a lista obtida do serviço
-        reviewRecyclerView.setAdapter(new ReviewRecyclerViewAdapter(reviews));
+
+        if(reviews != null && reviews.size()!= 0) {
+            // Preenche o RecyclerView de Review com a lista obtida do serviço
+            reviewRecyclerView.setAdapter(new ReviewRecyclerViewAdapter(reviews));
+            reviewRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getContext()));
+        }else{
+            disableReviewRecyclerView();
+        }
     }
 
     @Override
@@ -258,17 +290,20 @@ public class MovieDetailActivityFragment extends Fragment implements MovieView {
     private void deleteFavoriteMovie() {
         int deleteResult = 0;
         try {
-             deleteResult = getContext().getContentResolver().delete(MovieContract.MovieEntry.CONTENT_URI,
-                    MovieContract.MovieEntry.COLUMN_MOVIE_ID + " LIKE  ?",
-                    new String[]{MovieContract.MovieEntry.COLUMN_MOVIE_ID});
-             if(deleteResult == 0){
-                 fillVisibiltyFavoriteMovie(View.GONE, View.VISIBLE);
-             }
+            Uri uri = MovieContract.MovieEntry.CONTENT_URI;
+            uri = uri.buildUpon().appendPath(movie.getId()).build();
+
+            deleteResult = getContext().getContentResolver().delete(uri, null, null);
+
+            if (deleteResult == 0) {
+                Log.d(Constants.TAG_MOVIE_DATAIL, "none record stored ");
+                fillVisibiltyFavoriteMovie(View.GONE, View.VISIBLE);
+            }
         } catch (Exception e) {
             Log.e(Constants.TAG_MOVIE_DATAIL, e.getMessage());
             fillVisibiltyFavoriteMovie(View.GONE, View.VISIBLE);
         }
+        Log.d(Constants.TAG_MOVIE_DATAIL, "Qtd Rows deleted :" + deleteResult);
 
-       // Log.d(Constants.TAG_MOVIE_DATAIL, "Qtd Rows deleted :" + deleteResult);
     }
 }

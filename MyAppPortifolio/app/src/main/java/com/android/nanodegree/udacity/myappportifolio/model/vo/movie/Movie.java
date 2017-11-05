@@ -2,6 +2,16 @@ package com.android.nanodegree.udacity.myappportifolio.model.vo.movie;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import com.android.nanodegree.udacity.myappportifolio.util.Constants;
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by ramon on 16/03/17.
@@ -9,27 +19,21 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
-    public static final String BASE_URL_IMAGE = "http://image.tmdb.org/t/p/w185";
-
     private String id;
-    private String posterPath;
-    private String originalTitle;
+
     private String overview;
+
+    @SerializedName("poster_path")
+    private String posterPath;
+    @SerializedName("original_title")
+    private String originalTitle;
+    @SerializedName("vote_average")
     private String voteAverage;
+    @SerializedName("release_date")
     private String releaseDate;
 
     public Movie() {
     }
-
-    public Movie(String id, String posterPath, String originalTitle, String overview, String voteAverage, String releaseDate) {
-        this.id = id;
-        this.posterPath = BASE_URL_IMAGE + posterPath;
-        this.originalTitle = originalTitle;
-        this.overview = overview;
-        this.voteAverage = voteAverage;
-        this.releaseDate = releaseDate;
-    }
-
 
     /**
      * Desserialiaza os atributos
@@ -81,22 +85,6 @@ public class Movie implements Parcelable {
         parcel.writeString(releaseDate);
     }
 
-
-    public enum ParametersEnum {
-        RESULTS("results"), ID("id"), POSTER_PATH("poster_path"), ORIGINAL_TITLE("original_title"), OVERVIEW("overview"),
-        VOTE_AVERAGE("vote_average"), RELEASE_DATE("release_date");
-
-        private final String value;
-
-        ParametersEnum(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
     public String getId() {
         return id;
     }
@@ -143,5 +131,22 @@ public class Movie implements Parcelable {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public String getPosterPathUrl() {
+        return Constants.BASE_URL_IMAGE + this.posterPath;
+    }
+
+    public String getReleaseYear() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY");
+
+        try {
+            return simpleDateFormat.format(simpleDateFormat.parse(releaseDate));
+        } catch (ParseException e) {
+            Log.e(Constants.TAG_MOVIE, "Error format date:" + e.getMessage());
+            return null;
+        }
+
+
     }
 }

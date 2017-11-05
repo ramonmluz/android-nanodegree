@@ -51,14 +51,6 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(),text,Toast.LENGTH_SHORT).show();
     }
 
-  /*  @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
-            case:R.id.ax
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
 }

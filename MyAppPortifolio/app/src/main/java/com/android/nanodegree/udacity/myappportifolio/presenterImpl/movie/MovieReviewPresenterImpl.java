@@ -5,7 +5,7 @@ import android.content.Context;
 import com.android.nanodegree.udacity.myappportifolio.model.vo.movie.Review;
 import com.android.nanodegree.udacity.myappportifolio.model.volley.movie.VolleyMovieReviewService;
 import com.android.nanodegree.udacity.myappportifolio.presenter.movie.MovieReviewPresenter;
-import com.android.nanodegree.udacity.myappportifolio.view.movie.MovieView;
+import com.android.nanodegree.udacity.myappportifolio.view.movie.MovieDatailView;
 import com.android.volley.VolleyError;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MovieReviewPresenterImpl implements MovieReviewPresenter {
 
-    private MovieView mView;
+    private MovieDatailView mView;
     private Context context;
     private VolleyMovieReviewService volleyMovieReviewService;
     private IResult resultLisnter;
@@ -32,7 +32,7 @@ public class MovieReviewPresenterImpl implements MovieReviewPresenter {
         }
     }
 
-    public MovieReviewPresenterImpl(MovieView view, Context context, String movieId) {
+    public MovieReviewPresenterImpl(MovieDatailView view, Context context, String movieId) {
         this.mView = view;
         this.context = context;
         this.volleyMovieReviewService = new VolleyMovieReviewService(this.context, new ResultReviewsListner(), movieId);
