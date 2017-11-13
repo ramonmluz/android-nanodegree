@@ -24,13 +24,15 @@ public class CursorQueryMovieTask extends AsyncTask<Void, Void, Cursor> {
 
     private RecyclerView moviesRecyclerView;
     private Context mContext;
+    private  List<Movie> movies;
 
     public CursorQueryMovieTask() {
     }
 
-    public CursorQueryMovieTask(RecyclerView moviesRecyclerView, Context context) {
+    public CursorQueryMovieTask(RecyclerView moviesRecyclerView, Context context, List<Movie> movies) {
         this.moviesRecyclerView = moviesRecyclerView;
         this.mContext = context;
+        this.movies = movies;
     }
 
     @Override
@@ -64,6 +66,7 @@ public class CursorQueryMovieTask extends AsyncTask<Void, Void, Cursor> {
             }
             // Preenche o RecycleView com os movies armazenados
             moviesRecyclerView.setAdapter(new MovieRecyclerViewAdapter(movies));
+
 
         } else {
             // Não existe filmes armazenados como favoritos
