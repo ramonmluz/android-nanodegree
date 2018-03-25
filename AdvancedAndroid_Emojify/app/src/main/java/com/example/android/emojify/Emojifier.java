@@ -32,8 +32,6 @@ import timber.log.Timber;
 
 class Emojifier {
 
-    private static final String LOG_TAG = Emojifier.class.getSimpleName();
-
     private static final float EMOJI_SCALE_FACTOR = .9f;
     private static final double SMILING_PROB_THRESHOLD = .15;
     private static final double EYE_OPEN_PROB_THRESHOLD = .5;
@@ -60,7 +58,7 @@ class Emojifier {
         SparseArray<Face> faces = detector.detect(frame);
 
         // Log the number of faces
-        Timber.d("detectFaces: number of faces = " + faces.size());
+        Timber.d( "detectFaces: number of faces = " + faces.size() );
 
         Bitmap resultBitmap = picture;
 
@@ -162,11 +160,9 @@ class Emojifier {
 
         // TODO (1): Change the return type of the whichEmoji() method from void to Emoji.
         // Log all the probabilities
-        Timber.d("whichEmoji: smilingProb = " + face.getIsSmilingProbability());
-        Timber.d("whichEmoji: leftEyeOpenProb = "
-                + face.getIsLeftEyeOpenProbability());
-        Timber.d("whichEmoji: rightEyeOpenProb = "
-                + face.getIsRightEyeOpenProbability());
+        Timber.d("whichEmoji: smilingProb = " + face.getIsSmilingProbability() );
+        Timber.d( "whichEmoji: leftEyeOpenProb = " + face.getIsLeftEyeOpenProbability()) ;
+        Timber.d( "whichEmoji: rightEyeOpenProb = " + face.getIsRightEyeOpenProbability() );
 
 
         boolean smiling = face.getIsSmilingProbability() > SMILING_PROB_THRESHOLD;
@@ -200,7 +196,8 @@ class Emojifier {
         }
 
         // Log the chosen Emoji
-        Log.d(LOG_TAG, "whichEmoji: " + emoji.name());
+        Timber.d( "whichEmoji: " + emoji.name() );
+
         return emoji;
     }
 

@@ -42,10 +42,10 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    // TODO (2): Replace all View declarations with Butterknife annotations
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_STORAGE_PERMISSION = 1;
@@ -75,12 +75,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     /**
      * OnClick method for "Emojify Me!" Button. Launches the camera app.
-     *
-     * @param view The emojify me button.
      */
     @OnClick(R.id.emojify_button)
     public void emojifyMe(View view) {
@@ -185,20 +187,15 @@ public class MainActivity extends AppCompatActivity {
         // Resample the saved image to fit the ImageView
         mResultsBitmap = BitmapUtils.resamplePic(this, mTempPhotoPath);
         
-
-        // Detect the faces and overlay the appropriate emoji
-        mResultsBitmap = Emojifier.detectFacesandOverlayEmoji(this, mResultsBitmap);
-
+        // Detect the faces
+        Emojifier.detectFacesAndOverlayEmoji(this, mResultsBitmap);
         // Set the new bitmap to the ImageView
         mImageView.setImageBitmap(mResultsBitmap);
     }
 
 
-    // TODO (4): Replace OnClick methods with Butterknife annotations for OnClicks
     /**
      * OnClick method for the save button.
-     *
-     * @param view The save button.
      */
     @OnClick(R.id.save_button)
     public void saveMe(View view) {
@@ -211,8 +208,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * OnClick method for the share button, saves and shares the new bitmap.
-     *
-     * @param view The share button.
      */
     @OnClick(R.id.share_button)
     public void shareMe(View view) {
@@ -228,8 +223,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * OnClick for the clear button, resets the app to original state.
-     *
-     * @param view The clear button.
      */
     @OnClick(R.id.clear_button)
     public void clearImage(View view) {
