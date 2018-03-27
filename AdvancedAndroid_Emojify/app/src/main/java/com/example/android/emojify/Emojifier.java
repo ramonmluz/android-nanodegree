@@ -58,7 +58,7 @@ class Emojifier {
         SparseArray<Face> faces = detector.detect(frame);
 
         // Log the number of faces
-        Timber.d( "detectFaces: number of faces = " + faces.size() );
+        Timber.d("detectFaces: number of faces = " + faces.size());
 
         Bitmap resultBitmap = picture;
 
@@ -71,41 +71,44 @@ class Emojifier {
             for (int i = 0; i < faces.size(); ++i) {
                 Face face = faces.valueAt(i);
                 // Get the appropriate emoji for each face
-                 Bitmap emojiBitmap = null;
+                Bitmap emojiBitmap;
 
-                 switch (whichEmoji(face)){
-                     case SMILE:
-                         emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.smile);
-                         break;
-                     case FROWN:
-                         emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.frown);
-                         break;
-                     case LEFT_WINK:
-                         emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.leftwink);
-                         break;
-                     case RIGHT_WINK:
-                         emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rightwink);
-                         break;
-                     case LEFT_WINK_FROWN:
-                         emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.leftwinkfrown);
-                         break;
-                     case  RIGHT_WINK_FROWN:
-                         emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rightwinkfrown);
-                         break;
-                     case CLOSED_EYE_SMILE:
-                         emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.closed_smile );
-                         break;
-                     case CLOSED_EYE_FROWN:
-                         emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.closed_frown );
-                         break;
-                 }
+                switch (whichEmoji(face)) {
+                    case SMILE:
+                        emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.smile);
+                        break;
+                    case FROWN:
+                        emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.frown);
+                        break;
+                    case LEFT_WINK:
+                        emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.leftwink);
+                        break;
+                    case RIGHT_WINK:
+                        emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rightwink);
+                        break;
+                    case LEFT_WINK_FROWN:
+                        emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.leftwinkfrown);
+                        break;
+                    case RIGHT_WINK_FROWN:
+                        emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.rightwinkfrown);
+                        break;
+                    case CLOSED_EYE_SMILE:
+                        emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.closed_smile);
+                        break;
+                    case CLOSED_EYE_FROWN:
+                        emojiBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.closed_frown);
+                        break;
+                    default:
+                        emojiBitmap = null;
+                        Toast.makeText(context, R.string.no_emoji, Toast.LENGTH_SHORT).show();
+                }
 
-                resultBitmap  = addBitmapToFace(resultBitmap, emojiBitmap, face);
+                resultBitmap = addBitmapToFace(resultBitmap, emojiBitmap, face);
             }
         }
         // Release the detector
         detector.release();
-       return resultBitmap;
+        return resultBitmap;
     }
 
     /**
@@ -116,37 +119,36 @@ class Emojifier {
      * @param face             O rosto detectado
      * @return O bitmap final, incluindo os emojis sobre os rostos
      */
-    private static Bitmap addBitmapToFace(Bitmap  backgroundBitmap,  Bitmap emojiBitmap, Face face) {
+    private static Bitmap addBitmapToFace(Bitmap backgroundBitmap, Bitmap emojiBitmap, Face face) {
 
-           // Inicializa os resultados bitmap para serem cópias mutáveis da imagem original
-            Bitmap resultBitmap = Bitmap.createBitmap(Bitmap.createBitmap(backgroundBitmap.getWidth(),
-                    backgroundBitmap.getHeight(), backgroundBitmap.getConfig()));
+        // Inicializa os resultados bitmap para serem cópias mutáveis da imagem original
+        Bitmap resultBitmap = Bitmap.createBitmap(Bitmap.createBitmap(backgroundBitmap.getWidth(),
+                backgroundBitmap.getHeight(), backgroundBitmap.getConfig()));
 
-           // Dimensiona o emoji para ele ficar melhor no rosto
-           float scaleFactor  = EMOJI_SCALE_FACTOR;
+        // Dimensiona o emoji para ele ficar melhor no rosto
+        float scaleFactor = EMOJI_SCALE_FACTOR;
 
-           // Determina o tamanho do emoji para corresponder com a largura do rosto e manter a proporção
-           int newEmojiWith = (int) (face.getWidth() * scaleFactor );
-           int newEmojiHeght = (int) (emojiBitmap.getHeight() *
-                   newEmojiWith / emojiBitmap.getWidth() * scaleFactor );
+        // Determina o tamanho do emoji para corresponder com a largura do rosto e manter a proporção
+        int newEmojiWith = (int) (face.getWidth() * scaleFactor);
+        int newEmojiHeght = (int) (emojiBitmap.getHeight() *
+                newEmojiWith / emojiBitmap.getWidth() * scaleFactor);
 
-            // Dimensiona emoj
-            emojiBitmap = Bitmap.createScaledBitmap(emojiBitmap, newEmojiWith, newEmojiHeght, false);
+        // Dimensiona emoj
+        emojiBitmap = Bitmap.createScaledBitmap(emojiBitmap, newEmojiWith, newEmojiHeght, false);
 
-            float emojiPsitionX = (face.getPosition().x + face.getWidth() / 2)
-                    - emojiBitmap.getWidth() / 2;
+        float emojiPsitionX = (face.getPosition().x + face.getWidth() / 2)
+                - emojiBitmap.getWidth() / 2;
 
-            float emojiPsitionY = (face.getPosition().x + face.getHeight() / 3)
-                    - emojiBitmap.getWidth() / 3;
+        float emojiPsitionY = (face.getPosition().x + face.getHeight() / 3)
+                - emojiBitmap.getWidth() / 3;
 
-           // Cria o canvas e desenha os bitmaps nele
-          Canvas canvas  = new Canvas( resultBitmap );
-          canvas.drawBitmap(backgroundBitmap, 0, 0, null);
-          canvas.drawBitmap(emojiBitmap, emojiPsitionX, emojiPsitionY, null);
+        // Cria o canvas e desenha os bitmaps nele
+        Canvas canvas = new Canvas(resultBitmap);
+        canvas.drawBitmap(backgroundBitmap, 0, 0, null);
+        canvas.drawBitmap(emojiBitmap, emojiPsitionX, emojiPsitionY, null);
 
-        return  resultBitmap;
+        return resultBitmap;
     }
-
 
 
     /**
@@ -160,9 +162,9 @@ class Emojifier {
 
         // TODO (1): Change the return type of the whichEmoji() method from void to Emoji.
         // Log all the probabilities
-        Timber.d("whichEmoji: smilingProb = " + face.getIsSmilingProbability() );
-        Timber.d( "whichEmoji: leftEyeOpenProb = " + face.getIsLeftEyeOpenProbability()) ;
-        Timber.d( "whichEmoji: rightEyeOpenProb = " + face.getIsRightEyeOpenProbability() );
+        Timber.d("whichEmoji: smilingProb = " + face.getIsSmilingProbability());
+        Timber.d("whichEmoji: leftEyeOpenProb = " + face.getIsLeftEyeOpenProbability());
+        Timber.d("whichEmoji: rightEyeOpenProb = " + face.getIsRightEyeOpenProbability());
 
 
         boolean smiling = face.getIsSmilingProbability() > SMILING_PROB_THRESHOLD;
@@ -196,7 +198,7 @@ class Emojifier {
         }
 
         // Log the chosen Emoji
-        Timber.d( "whichEmoji: " + emoji.name() );
+        Timber.d("whichEmoji: " + emoji.name());
 
         return emoji;
     }
